@@ -1,6 +1,9 @@
 # data-viz
 This repo will eventually be a ressource for good data-viz techniques and tips in R.
 
+
+ THIS REPOSITORY IS STILL A WORK IN PROGRESS
+
 ## Currently planned :
 - data viz principles (how to choose the type of graph, axis labelled, proportionnality of ink, one plot per idea, etc ...)
 - ggplot2 basic explanations
@@ -37,14 +40,20 @@ The type of graph you choose contains information as well. By using a boxplot, y
 We will have a whole part describing various types of plots and what they communicate, (TODO : link)
 
 
-## Maje your graphs clear
+## Make your graphs clear
 Let's go back to our previous boxplot
+
 ![Plot : Petal length by species, boxplot](plots/intro_onlyboxplot.png "boxplot showing  petal length by species")
+
+It is very important, and harder than you might expect, to take a step back and look at what information is *actually* present on the plot, and not what you assume is here.
+
+This plot for example has no title, and in itslef does not mention where the data is from, a title, or subtext might be usefull to make sure the reader is not lost. But there are other things you might have missed...
 
 Here's a fun question : what are all of the informations in each boxplot ?
 
 - The bar at the middle of a box is the median
 - The sides of the box show the first and third quartiles of the repartition
+- The outliers, but how are they declared outliers ?
 - The whiskers however are not the last deciles, as you might have expected.
 
 Indeed this graph has been made via ggplot2, and more precisely with the `geom_boxplot` function, whose manual reads
@@ -53,4 +62,50 @@ Indeed this graph has been made via ggplot2, and more precisely with the `geom_b
 
 I would be willing to bet that this definition what not what you had in mind. Because of that, it is vital when presenting a plot to let a way for the reader to know this kind of details. It can be put into the legend of your plot, or it can be by making your code generating your plots easilly accessible and understandible.
 
+------
+# Introduction to ggplot2
+This article is meant to be very general, but if you wish to see the coding aspect of it, we will be using ggplot2 in R to plot every examples. This part can serve as an introduction to the package main advantages and inner working, but is completely skippable if you are looking for a more general overview of how to design your plots.
+
+The scripts used to generate each plots can be found in `scripts/`
+
+## data and aesthetic
+Each
+
+
+## functions
+
+## themes
+
+
 -------
+# Different types of graph
+
+
+## Scatterplot
+geom_point(), geom_count(), geom_dot() ?, geom_rugplot()
+
+## 2DDensity plots and heatmaps
+geom_bin_2d(), geom_tile(), geom_contour(), geom_countour_filled(), geom_hex()
+
+## Density plots and histograms
+geom_density(), geom_freqpoly() ?, geom_histogram()
+
+## boxplots
+geom_boxplot(), geom_quantile()
+
+## violinplots
+geom_violin()
+
+## lineplots
+geom_function(), geom_line(), geom_path(), geom_step(), geom_ribbon(), geom_smooth()
+
+## barplots
+geom_bar(), geom_col()
+
+## Others
+geom_qq_line
+
+--------
+# Vocabulary
+- Overplotting
+- Error bars
