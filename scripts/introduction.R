@@ -27,9 +27,6 @@ p <- p + theme(
   axis.text = element_text(size = 12)
 )
 p <- p + scale_colour_brewer(palette = "Set1")
-png("plots/intro_scatterplot.png")
-print(p)
-dev.off()
 
 ##boxplot : length of petals depending on species
 q <- ggplot(
@@ -52,10 +49,11 @@ q <- q + theme(
 )
 q <- q + scale_fill_brewer(palette = "Set1")
 
-png("plots/intro_boxplot.png")
-print(q)
-dev.off()
 
 png("plots/intro.png", width = 960)
 grid.arrange(p,q, nrow=1)
+dev.off()
+
+png("plots/intro_onlyboxplot.png", width = 480)
+print(q)
 dev.off()
