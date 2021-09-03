@@ -37,12 +37,20 @@ The type of graph you choose contains information as well. By using a boxplot, y
 We will have a whole part describing various types of plots and what they communicate, (TODO : link)
 
 
-## Add a clear legend and a way to reproduce your analysis
+## Maje your graphs clear
 Let's go back to our previous boxplot
-[Plot : Petal length by species, boxplot](plots/intro_onlyboxplot.png "boxplot showing  petal length by species")
+![Plot : Petal length by species, boxplot](plots/intro_onlyboxplot.png "boxplot showing  petal length by species")
 
 Here's a fun question : what are all of the informations in each boxplot ?
 
+- The bar at the middle of a box is the median
+- The sides of the box show the first and third quartiles of the repartition
+- The whiskers however are not the last deciles, as you might have expected.
 
+Indeed this graph has been made via ggplot2, and more precisely with the `geom_boxplot` function, whose manual reads
+
+> The upper whisker extends from the hinge to the largest value no further than 1.5 * IQR from the hinge (where IQR is the inter-quartile range, or distance between the first and third quartiles). The lower whisker extends from the hinge to the smallest value at most 1.5 * IQR of the hinge
+
+I would be willing to bet that this definition what not what you had in mind. Because of that, it is vital when presenting a plot to let a way for the reader to know this kind of details. It can be put into the legend of your plot, or it can be by making your code generating your plots easilly accessible and understandible.
 
 -------
