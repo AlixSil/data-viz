@@ -6,21 +6,18 @@ data(iris)
 iris <- as_tibble(iris)
 
 ## scatterplot : length and width of petals depending on species
-
-print(iris)
-
 p <- ggplot(
   iris,
   aes(
-    x = Petal.Length,
-    y = Sepal.Length,
+    x = Sepal.Length,
+    y = Petal.Length,
     color = Species
   )
 )
 p <- p + geom_point()
 p <- p + theme_bw()
-p <- p + xlab("Petal Length")
-p <- p + ylab("Sepal Length")
+p <- p + xlab("Sepal Length")
+p <- p + ylab("Petal Length")
 p <- p + theme(
   legend.text = element_text(size = 12),
   legend.title = element_text(size = 14),
@@ -51,10 +48,20 @@ q <- q + theme(
 q <- q + scale_fill_brewer(palette = "Set1")
 
 
-png("plots/intro.png", width = 960)
+png("plots/png/intro.png", width = 960)
 grid.arrange(p, q, nrow = 1)
 dev.off()
 
-png("plots/intro_onlyboxplot.png", width = 480)
+pdf("plots/pdf/intro.pdf", width = 960)
+grid.arrange(p, q, nrow = 1)
+dev.off()
+
+
+
+png("plots/png/intro_onlyboxplot.png", width = 480)
+print(q)
+dev.off()
+
+pdf("plots/pdf/intro_onlyboxplot.pdf", width = 480)
 print(q)
 dev.off()
