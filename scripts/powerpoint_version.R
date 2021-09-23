@@ -73,9 +73,12 @@ print_fig("only_one_idea", q)
 
 ###Dark side of data viz###
 
-##Truncated axis
+data_student <- data_student %>%
+  mutate(favorite_musical = factor(favorite_musical, levels = c("Dr. Horrible", "Hadestown", "Hamilton", "Exit", "Galavant")))
 
-p <- ggplot(data_student, aes(x = favorite_musical, fill = favorite_musical))
+##Truncated axis
+print(data_student)
+p <- ggplot(data_student, aes(x =favorite_musical , fill = favorite_musical))
 p <- p + geom_bar()
 p <- p + coord_cartesian(ylim=c(85,320))
 p <- p + theme_bw()
@@ -129,7 +132,7 @@ p <- p + ylab("Median scores")
 print_fig("barplot_median", p)
 
 p <- ggplot(data_long, aes( x = subject, y = score, fill = subject))
-p <- p + geom_boxplot()
+p <- p + geom_boxplot(notch=T)
 p <- p + theme_bw()
 p <- p + scale_fill_brewer(palette = "Set2")
 p <- p + theme(
@@ -142,7 +145,7 @@ print_fig("boxplot_scores", p)
 
 
 p <- ggplot(data_long, aes( x = subject, y = score, fill = subject))
-p <- p + geom_violin()
+p <- p + geom_violin(width = 0.5)
 p <- p + theme_bw()
 p <- p + scale_fill_brewer(palette = "Set2")
 p <- p + theme(
@@ -152,5 +155,29 @@ p <- p + theme(
 )
 p <- p + ylab("Scores")
 print_fig("violin_scores", p)
+
+p <- ggplot(data_long, aes( x = subject, y = score, fill = subject))
+p <- p + geom_violin(width = 0.5) + geom_boxplot(width = 0.1, notch = T)
+p <- p + theme_bw()
+p <- p + scale_fill_brewer(palette = "Set2")
+p <- p + theme(
+  axis.text = element_text(size = 16),
+  axis.title = element_text(size = 20),
+  legend.position = "None"
+)
+p <- p + ylab("Scores")
+print_fig("violin_and_box_scores", p)
+
+p <- ggplot(data_long, aes( x = subject, y = score, fill = subject))
+p <- p + geom_dotplot(binaxis='y', stackdir='center', dotsize=0.1)
+p <- p + theme_bw()
+p <- p + scale_fill_brewer(palette = "Set2")
+p <- p + theme(
+  axis.text = element_text(size = 16),
+  axis.title = element_text(size = 20),
+  legend.position = "None"
+)
+p <- p + ylab("Scores")
+print_fig("jitter_scores", p)
 
 #Barplots are bad
