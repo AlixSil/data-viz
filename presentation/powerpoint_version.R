@@ -1,7 +1,10 @@
 library(tidyverse)
 
+dir.create("plots/png/", recursive = T)
+dir.create("plots/pdf")
+
 ### Load data and make the name of the columns workable"
-data_student <- read_delim("data/modified_students_performance.csv", delim = ";")
+data_student <- read_delim("../data/modified_students_performance.csv", delim = ";")
 
 data_long <- data_student %>%
   gather(type, score, c("math_score", "writing_score", "reading_score"))
@@ -18,7 +21,6 @@ print_fig <- function(na, ggplot_object) {
 }
 
 ### Prove quality of plots matter###
-print(colnames(data_student))
 
 q <- ggplot(data_student, aes(x = math_score, y = writing_score, color = Has_slept))
 q <- q + geom_point()
@@ -77,7 +79,7 @@ data_student <- data_student %>%
   mutate(favorite_musical = factor(favorite_musical, levels = c("Dr. Horrible", "Hadestown", "Hamilton", "Exit", "Galavant")))
 
 ##Truncated axis
-print(data_student)
+
 p <- ggplot(data_student, aes(x =favorite_musical , fill = favorite_musical))
 p <- p + geom_bar()
 p <- p + coord_cartesian(ylim=c(85,320))
@@ -92,6 +94,7 @@ p <- p + theme(
 print_fig("barplot_truncated", p)
 
 
+
 p <- ggplot(data_student, aes(x = favorite_musical, fill = favorite_musical))
 p <- p + geom_bar()
 p <- p + theme_bw()
@@ -103,6 +106,26 @@ p <- p + theme(
   legend.position = "None"
 )
 print_fig("barplot_normal", p)
+
+data_student_count <- data_student %>%
+  group_by(favorite_musical) %>%
+  summarise(count = n())
+
+
+
+p <- ggplot(data_student_count, aes(x = favorite_musical, y = count, fill = favorite_musical))
+p <- p + geom_bar(stat = "identity") + geom_line(group = "") + geom_point()
+p <- p + theme_bw()
+p <- p + xlab("Favourite musical")
+p <- p + scale_fill_brewer(palette = "Set1")
+p <- p + theme(
+  axis.text = element_text(size = 16),
+  axis.title = element_text(size = 20),
+  legend.position = "None"
+)
+
+print_fig("barplot_line", p)
+
 
 ##Do not hide distribution
 replace_name = tibble(
@@ -168,16 +191,73 @@ p <- p + theme(
 p <- p + ylab("Scores")
 print_fig("violin_and_box_scores", p)
 
-p <- ggplot(data_long, aes( x = subject, y = score, fill = subject))
-p <- p + geom_dotplot(binaxis='y', stackdir='center', dotsize=0.1)
-p <- p + theme_bw()
-p <- p + scale_fill_brewer(palette = "Set2")
-p <- p + theme(
-  axis.text = element_text(size = 16),
-  axis.title = element_text(size = 20),
-  legend.position = "None"
-)
-p <- p + ylab("Scores")
-print_fig("jitter_scores", p)
 
-#Barplots are bad
+
+#Colors rainbow
+
+counts_heros <- data_student %>%
+  group_by(hero) %>%
+  summarize(n_count = n()) %>%
+  arrange(n_count)
+
+data_student <- data_student %>%
+  mutate(hero = factor(hero, levels = pull(counts_heros, hero)))
+
+
+
+palette_to_use = c("#FF0018", "#FFA52C", "#FFFF41", "#008018", "#0000F9", "#86007D")
+names(palette_to_use) = levels = rev(pull(counts_heros, hero))
+
+
+p <- ggplot(data_student, aes(y =hero , fill = hero))
+p <- p + geom_bar()
+p <- p + scale_fill_manual(values = palette_to_use)
+p <- p + theme_bw()
+p <- p + ylab("Personal hero")
+p <- p + theme(
+  legend.position = "none",
+  axis.text = element_text(size = 16),
+  axis.title = element_text(size = 20)
+)
+
+print_fig("rainbow", p)
+
+##Pie plots, and dougnut plots
+data_student_perc <- data_student %>%
+  group_by(favorite_musical) %>%
+  summarize(count_favorite_musical = n()) %>%
+  arrange(desc(favorite_musical)) %>%
+  mutate(
+        perc = 100*count_favorite_musical/sum(count_favorite_musical),
+        lab.pos = cumsum(perc) - 0.5*perc
+      )
+
+
+p <- ggplot(data_student_perc, aes(x ="" ,y = perc, fill = favorite_musical))
+p <- p + geom_bar(width = 1, stat = "identity")
+p <- p + coord_polar("y", start=0)
+p <- p +   geom_text(aes(y = lab.pos, label = paste(round(perc,1),"%", sep = "")), color = "white", size = 5)
+p <- p + ylab("") + xlab("")
+p <- p + theme_void()
+p <- p + scale_fill_brewer(palette = "Set1", name = "Favorite musical")
+p <- p + theme(
+  legend.text = element_text(size = 16),
+  legend.title = element_text(size = 16)
+)
+
+print_fig("pie_plot", p)
+
+p <- ggplot(data_student_perc, aes(x =2 ,y = perc, fill = favorite_musical))
+p <- p + geom_bar(width = 0.25, stat = "identity")
+p <- p + coord_polar("y", start=0)
+p <- p +   geom_text(aes(y = lab.pos, label = paste(round(perc, 1),"%", sep = "")), col = "white", size = 5)
+p <- p + ylab("") + xlab("")
+p <- p + theme_void()
+p <- p + scale_fill_brewer(palette = "Set1", name = "Favorite musical")
+p <- p + theme(
+  legend.text = element_text(size = 16),
+  legend.title = element_text(size = 16)
+)
+p <- p + xlim(1.4,2.5)
+
+print_fig("dougnut_plot", p)

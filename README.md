@@ -44,7 +44,7 @@ It is best, when possible to use only one plot per idea. Plots that can carry mu
 The type of graph you choose contains information as well. By using a boxplot, you are making the choice to only show some informations but not the full distribution, this choice is meaningfull and carries implication. It is thus very important to choose carefully what type of plot you are using and which assumptions it carries.
 
 ### Scatterplot
-A Scatterplot is a good way to compare two *numerical* values across a relatively low number of 
+A Scatterplot is a good way to compare two *numerical* values across a relatively low number of
 
 ### Heatmap
 
