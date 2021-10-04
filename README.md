@@ -1,58 +1,89 @@
-# data-viz for scientific papers
-This repo will eventually be a ressource for good data-viz techniques and tips in R.
+# data-viz for researchers
 
-
- THIS REPOSITORY IS STILL A WORK IN PROGRESS
-
-## Currently planned :
-- Know what you are trying to communicate and chose the appropriate type of graph
-- Introduction to ggplott2
-- Lisibility of your graph
-- Errorbars and hidden computation
-- Bad habits to avoid
-  * Pieplots and polar coordinate
-  * barplots
-  * area usage
-  * 3D usage
-
-## Planned structure of the repository :
-- `scripts/` contain the scripts used to plot everything
-- `plots/` contain the differents plots that will eventually be used in that README (or on the website ?) as examples
-- `data/` might eventually contains a dataset for which we do a bit of example, otehrwise we will just use the iris dataset.
-
------
 # Introduction
-Visually representing data is necessary to summarise the data in a way a human brain can understand. However there are multiples way to do it, and a lot of ways to do it horribly wrong. In this article (TODO ?) we will go over some important principles in data visualisation, some good practices and the pitfalls to avoid in order to make the best graphs possible.
+Visually representing data is necessary to summarise the data in a way a human brain can understand. However there are multiples way to do it, and a lot of ways to do it horribly wrong. In this repository, we will go over some important principles in data visualisation, some good practices and the pitfalls to avoid in order to make the best graphs possible.
+Most plots will be made using R and ggplot2, an introduction to ggplot2 as well as a good librairy of examples will be present as well.
 
 
+## Structure of the repository :
+- `scripts/` contain the various scripts used to create the plots you will see in this page
+- `plots/` contain the differents plots that will eventually be used in that README as examples
+- `data/` will contain a few toy datasets to illustrate our points. Larger datasets might be downloaded in this location for plots that necessitates a high number of observations (i.e. heatmaps)
+- `presentation/` contains every important document for the creation of a presentation on the subject, as well as the pdf documents used in a presentation given on the subject in the context of iPOP-UP's bioinformatic meetings.
+
+## R version and librairies
+You will find in this repositery the file TODO which contains the necessary information to create a conda environment containing all the necessary tools to run the scripts present here.
+
+To create the corresponding environment on your local machine, please run
+TODO
+
+To activate it please run
+TODO
 
 ------
 # Know what you are trying to communicate and chose the appropriate type of graph
-As examples, we will use the classic "iris" dataset, which is present in the R "datasets" library
-
 
 ## Know what you are trying to communicate.
-The first question you have to ask when you are winding up to make a graph, is what you are trying to communicate with said graphs. If we want to compare the length of petals between species, the two following graphs do contain the desired information. But which one of those is the best ?
+The first question to ask yourself before doing anything, is know what exactly it is that you are trying to communicate. Do you want to show how to continuous measures are linked ? Or do you want to compare the value of a measure accross two groups ?
 
-![Plot : Petal Length comparison by species](plots/intro.png "Comparison of petal Length by Species")
+For example, let's imagine you wish to compare the length of petals between different species of plants.
 
-The graph on the left does contain all of the information about Species and Petal Length, but it also contains information about Sepal length, which is, in this example, irrelevant to the comparison between species. The boxplot on the right contains strictly less information but it contains the information necessary for the comparison, and not much more.
+![Plot : Petal Length comparison by species](plots/png/intro.png "Comparison of petal length by Species")
 
-It is best, when possible to use only one plot per idea. Plots that can carry multiple ideas exists, but they are best used when summarising results that have already been presented or when exploring the dataset.
+The graph on the left does contain all of the information about Species and Petal Length, but it also contains information about Sepal length, which is irrelevant to the comparison of petal length between species. The boxplot on the right contains strictly less information but it contains the information necessary for the comparison, and not much more.
+
+It is best, when possible to limit the information in the plots to the strict minimum allowing to carry your message. And as a consequence, it is better when possible to limit yourself to one idea per plot. Figures that carry several ideas at once do exist and get published, but they also run the risk of confusing the reader, either by them not understanding what you mean, or worse, by understanding something false.
 
 ## Choose your type of graph
-The type of graph you choose contains information as well. By using a boxplot, you are making the choice to only show some informations but not the full distribution, this choice is meaningfull and carries implication. It is thus very important to choose carefully what type of plot you are using and which assumptions it carries.
+
+Now that you know what you want to represent, you must choose how you are going to represent it. There is no "one size fits all" answer here, but each type of graphs have their specific strength, and their own sets of assumptions, so let's list the most popular types of graphs.
 
 ### Scatterplot
-A Scatterplot is a good way to compare two *numerical* values across a relatively low number of
 
-### Heatmap
+![Plot : Example of scatterplot](plots/png/scatterplot_example.png "Comparison of petal length by Species")
 
-### boxplot and violinplots
+
+A scatterplot is a good way to represent the dependencie between two *numerical continuous* variables accross several samples. You can also use colors to illustrate how this relationship depends from another *categorical* variable.
+
+Scatterplots tend to become difficult to read if you've got too many observations, of if you add too many colors to it. If you've got too many informations, consider using a heatmap or 2D density plot.
+
+By default, and in a lot of cases, the 2 axis will not be of the same scale and will not include the 0 value. Whereas it is appropriate to check the relationship between the 2 numerical continuous variable, it can make them easy to misinterpret if those elements are not taken into account.
+
+See below, a side by side comparion between the "default" look, and one including 0, and see the difference in feels it can create.
+
+![Plot : Scatterplot - inclusion of 0 value](plots/png/scatterplot_orthonormal.png "Comparison of petal length by Species")
+
+This type of plot is often can be used to illustrate linear models.
+
+![Plot : Scatterplot - linear model](plots/png/scatterplot_with_lm.png "Comparison of petal length by Species")
+
+
+### 2D density plots
+2D density plots function similarly to scatterplot, in that they represent the dependencies between two *numerical continuous*, but they are best prefered in the case of a high number of observations.
+
+This type of graph is not limited in the number of observations in can show.
+
+Less precise then scatterplots, as the individual points are not visible. The way data is summarised can vary depending on the exact method you are using
+
+There exists a lot of ways to realise a 2D density plots, you can see here several of them. But what you choose to represent with the colors (i.e. density, counts, etc...) can drasticly change the look of the final figure.
+
+2D density plots are sometime called "heatmap" as well.
+
+
+### Categorical heatmaps
+Categorical heatmaps are a way to reprensent a numerical variable value in fucntion of two other *categoricals variables* (or numerical variables that have been binned.)
+
+
+### Boxplots
+Boxplots are a way to represent summary statistics of one *continuous numerical* accross a spectrum of information.
+
+### density plots and violin plots
 
 ### Lineplots
 
-### Barplots and pieplots
+### Barplots
+
+### Pieplots
 
 
 ## Make sure your graphs are readable
