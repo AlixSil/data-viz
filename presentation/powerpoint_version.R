@@ -246,3 +246,47 @@ p <- p + theme(
 p <- p + xlim(1.4, 2.5)
 
 print_fig("dougnut_plot", p)
+
+
+##Inverted axis
+print(data_student[, c("math_score", "reading_score")])
+q <- ggplot(data_student, aes(x = math_score, y = reading_score, color = Has_slept))
+q <- q + geom_point()
+q <- q + theme_bw()
+q <- q + xlim(c(100, 0)) + ylim(c(0, 100))
+q <- q + xlab("Math score") + ylab("Reading score")
+q <- q + scale_color_brewer(name = "Has slept", palette = "Set1")
+q <- q + theme(
+  axis.text = element_text(size = 16),
+  axis.title = element_text(size = 20),
+  legend.text = element_text(size = 16),
+  legend.title = element_text(size = 16),
+  legend.justification = c(0, 0),
+  legend.position = c(0.05, 0.05),
+  legend.box.background = element_rect(colour = "black")
+)
+
+
+print_fig("inverted_axis_scatter", q)
+
+
+print(data_student[, c("math_score", "reading_score")])
+q <- ggplot(data_student, aes(x = math_score, y = reading_score, color = Has_slept))
+q <- q + geom_point()
+q <- q + scale_x_sqrt(breaks = c(0, 2, 10, 30, 50, 100))
+q <- q + theme_bw()
+q <- q + ylim(c(0, 100))
+q <- q + xlab("Math score") + ylab("Reading score")
+q <- q + scale_color_brewer(name = "Has slept", palette = "Set1")
+q <- q + theme(
+  axis.text = element_text(size = 16),
+  axis.title = element_text(size = 20),
+  legend.text = element_text(size = 16),
+  legend.title = element_text(size = 16),
+  legend.justification = c(1, 0),
+  legend.position = c(0.95, 0.05),
+  legend.box.background = element_rect(colour = "black")
+)
+
+
+print_fig("deformed_axis", q)

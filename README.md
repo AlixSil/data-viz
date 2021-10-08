@@ -112,7 +112,7 @@ Each
 geom_point(), geom_count(), geom_dot() ?, geom_rugplot()
 
 ## 2DDensity plots and heatmaps
-geom_bin_2d(), geom_tile(), geom_contour(), geom_countour_filled(), geom_hex()
+geom_bin_2d(), geom_tile(), geom_contour(), geom_countour_filled(), geom_hex(), stat_density_2d
 
 ## Density plots and histograms
 geom_density(), geom_freqpoly() ?, geom_histogram()

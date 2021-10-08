@@ -36,16 +36,21 @@ p <- ggplot(
     y = waiting,
   )
 )
-p <- p + geom_density_2d_filled()
+p <- p + stat_density_2d(
+  geom = "raster",
+  aes(fill = after_stat(density)),
+  contour = FALSE
+) + scale_fill_viridis_c()
 p <- p + theme_classic()
-p <- p + xlab("Eruption length")
-p <- p + ylab("Wait Length")
+p <- p + xlab("Eruption length (s)")
+p <- p + ylab("Wait Length (s)")
 p <- p + theme(
   legend.text = element_text(size = 12),
   legend.title = element_text(size = 14),
   axis.title = element_text(size = 14),
   axis.text = element_text(size = 12)
 )
+p <- p + guides(fill = guide_colorbar())
 
 png("plots/png/2D_density_filled.png")
 print(p)
