@@ -69,6 +69,8 @@ There exists a lot of ways to realise a 2D density plots, you can see here sever
 
 2D density plots are sometime called "heatmap" as well.
 
+![Plot : 2D density plots](plots/png/density_map_and_filled.png "Relationship between eruption length and wait")
+
 
 ### Categorical heatmaps
 Categorical heatmaps are a way to reprensent a numerical variable value in fucntion of two other *categoricals variables* (or numerical variables that have been binned.)
@@ -76,6 +78,7 @@ Categorical heatmaps are a way to reprensent a numerical variable value in fucnt
 
 ### Boxplots
 Boxplots are a way to represent summary statistics of one *continuous numerical* accross a spectrum of information.
+
 
 ### density plots and violin plots
 
